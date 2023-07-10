@@ -12,7 +12,7 @@
 
 
 # vasya = Person(33)
-# # print(vasya.__age)
+# print(vasya.__age)
 # vasya.__age = 44  # под капотом мы просто создаем новое поле которое не имеет никакого отношения к
 # # к полю  self.__age из класса
 # print(vasya.__age)
@@ -68,8 +68,8 @@
 #
 #     def __secret_info(self):
 #         print(f"Secret code: {self.__secret}")
-#
-#
+# #
+# #
 # vasya = User("Vasya", 44)
 # vasya.show_info()
 # print(vasya.name)  # отработает getter
@@ -109,7 +109,10 @@
 #
 # conv = MyConverter(5000)
 # conv.show_grn_rate()
-# print("Result: ", round(conv.get_dollars_sum()))
+# print("Result: ", round(conv.get_dollars_sum())) # Будет 133, но точнее 132,98
+# conv_2 = MyConverter(99)
+# print("Result: ", round(conv_2.get_dollars_sum()))
+
 
 #############
 # наследование
@@ -218,12 +221,12 @@
 #         # Person.__init__(self, name, age)
 #         self.company = company
 #
-#     # def work(self):
-#     #     print(f"{self.name} works in {self.company} company")
-#     #     # print(self.__secret)  # AttributeError: 'Employee' object has no attribute '_Employee__secret'
-#     #     print(self._hobby)  # есть доступ так как в базовом классе это поле protected
-#     #     # print(super().show_info())
-#     #     # print(super().name)
+#     def work(self):
+#         print(f"{self.name} works in {self.company} company")
+#         # print(self.__secret)  # AttributeError: 'Employee' object has no attribute '_Employee__secret'
+#         print(self._hobby)  # есть доступ так как в базовом классе это поле protected
+#         # print(super().show_info())
+#         # print(super().name)
 #
 #     # переопределение метода
 #     def show_info(self):
@@ -233,7 +236,7 @@
 #
 # vasya = Employee("Vasya", 33, "Google")
 # vasya.show_info()
-# # vasya.work()
+# vasya.work()
 
 ##############
 ###
@@ -262,23 +265,51 @@
 # vasya.work()
 # vasya.study()
 # print(WorkingStudent.mro())
-# [<class '__main__.WorkingStudent'>, <class '__main__.Student'>, <class '__main__.Employee'>, <class 'object'>]
+# # [<class '__main__.WorkingStudent'>, <class '__main__.Student'>, <class '__main__.Employee'>, <class 'object'>]
 
 ##
-# v4 пример ромбовидного наследования
+# v4 пример ромбовидного наследования # Не работает инкапсуляция, спросить
 # class Person:
+#     __name = "no name"
+#     __age = 18
 #     def __init__(self, name, age):
 #         self.name = name
 #         self.age = age
+#
+#     @property
+#     def name(self):
+#         return self.__name
+#     @name.setter
+#     def name(self, name):
+#         if len(name) > 2:
+#             self.__name = name
+#     @property
+#     def age(self):
+#         return self.__age
+#     @age.setter
+#     def age(self, age):
+#         if age >= 18:
+#             self.__age = age
 #
 #     def show_info(self):
 #         print(f"Name: {self.name}\nAge: {self.age}")
 #
 #
 # class Employee(Person):
-#     def __init__(self, name, age, company=None):
+#     def __init__(self, name, age, company):
 #         super().__init__(name, age)
+#         self.__company = "Point"
 #         self.company = company
+#
+#     @property
+#     def company(self):
+#         return self.__company
+#
+#     @company.setter
+#     def company(self, company):
+#         if len(company) > 2:
+#             self.__company = company
+#
 #
 #     def show_info(self):
 #         super().show_info()
@@ -286,9 +317,17 @@
 #
 #
 # class Student(Person):
-#     def __init__(self, name, age, university=None):
+#     def __init__(self, name, age, university):
 #         super().__init__(name, age)
+#         self.__university = "Harvard"
 #         self.university = university
+#     @property
+#     def university(self):
+#         return self.__university
+#     @university.setter
+#     def university(self, university):
+#         if len(university) > 2:
+#             self.__university = university
 #
 #     def show_info(self):
 #         super().show_info()
@@ -300,17 +339,18 @@
 #         Employee.__init__(self, name, age, company)
 #         Student.__init__(self, name, age, university)
 #
-#     # def show_info(self):
-#         # super().show_info()
+#
+#     def show_info(self):
+#         super().show_info()
 #         # Student.show_info(self)
 #         # Employee.show_info(self)
-#
-#
+# #
+# #
 # vasya = WorkingStudent("Vasya", 33, "Google", "Tech")
 # vasya.show_info()
 # # print(vasya.company)
 # # print(vasya.university)
-# print(WorkingStudent.mro())
+# # print(WorkingStudent.mro())
 
 ##
 # https://makina-corpus.com/python/python-tutorial-understanding-python-mro-class-search-path
@@ -318,20 +358,44 @@
 
 ##############
 ####
-# добавить инкапсуляцию
+# добавить инкапсуляцию - не работает в классах наследниках =(
 # class Transport:
+#     __name = "no name"
+#     __year = 2001
 #     def __init__(self, name, year):
 #         self.name = name
 #         self.year = year
+#     @property
+#     def name(self):
+#         return self.__name
+#     @name.setter
+#     def name(self, name):
+#         if len(name) > 2:
+#             self.__name = name
+#     @property
+#     def year(self):
+#         return self.__year
+#     @year.setter
+#     def year(self, year):
+#         if year > 1950:
+#             self.__year = year
 #
 #     def show_info(self):
 #         print(f"Name: {self.name}\nyear: {self.year}")
 #
 #
 # class BaseAuto(Transport):
-#     def __init__(self, name, year, wheels_count=0):
+#     def __init__(self, name, year, wheels_count):
 #         super().__init__(name, year)
+#         self.__wheels_count = 0
 #         self.wheels_count = wheels_count
+#     @property
+#     def wheels_count(self, wheels_count):
+#         return self.__wheels_count
+#     @wheels_count.setter
+#     def wheels_count(self, wheels_count):
+#         if wheels_count > 0:
+#             self.__wheels_count = wheels_count
 #
 #     # перекрытие метода базового класса Transport
 #     def show_info(self):
@@ -370,45 +434,48 @@
 #         BaseAuto.show_info(self)
 #
 #
-# test_car = Amphibian("BMW", 2023, 4, 123.2)
-# test_car.show_info()
-# print(Amphibian.mro())
+# # test_car = Amphibian("BMW", 2023, 4, 123.2)
+# # test_car.show_info()
+# # print(Amphibian.mro())
+# another_car = Amphibian("A", 1949, 5, 1234)
+# another_car.show_info()
+
 
 ################################
 # полиморфизм
 # https://maxdrive.kyiv.ua/dokumentacija/pochta/chto-takoe-polimorfizm-v-python
 
-class Parrot:
-    __name = "Kesha"
-
-    def fly(self):
-        print(f"Parrot {self.__name} can fly")
-
-    def swim(self):
-        print(f"Parrot {self.__name} can't swim")
-
-
-class Penguin:
-    __name = "Bobik"
-
-    def fly(self):
-        print(f"Penguin {self.__name} can't fly")
-
-    def swim(self):
-        print(f"Penguin {self.__name} can swim")
-
-
-# общий интерфейс
-def show_animal_info(bird):
-    # на этом этапе нам все равно какого типа будет экземпляр - интерфейс взаимодействия одинаковый: fly and swim
-    bird.fly()
-    bird.swim()
-
-
-# создаем объекты
-my_parrot = Parrot()
-my_penguin = Penguin()
-
-# передадим в общий интерфейс экземпляры
-show_animal_info(my_parrot)
-show_animal_info(my_penguin)
+# class Parrot:
+#     __name = "Kesha"
+#
+#     def fly(self):
+#         print(f"Parrot {self.__name} can fly")
+#
+#     def swim(self):
+#         print(f"Parrot {self.__name} can't swim")
+#
+#
+# class Penguin:
+#     __name = "Bobik"
+#
+#     def fly(self):
+#         print(f"Penguin {self.__name} can't fly")
+#
+#     def swim(self):
+#         print(f"Penguin {self.__name} can swim")
+#
+#
+# # общий интерфейс
+# def show_animal_info(bird):
+#     # на этом этапе нам все равно какого типа будет экземпляр - интерфейс взаимодействия одинаковый: fly and swim
+#     bird.fly()
+#     bird.swim()
+#
+#
+# # создаем объекты
+# my_parrot = Parrot()
+# my_penguin = Penguin()
+#
+# # передадим в общий интерфейс экземпляры
+# show_animal_info(my_parrot)
+# show_animal_info(my_penguin)
