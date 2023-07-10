@@ -124,12 +124,12 @@ class Academy:
         print(f"Academy name: {self._name}")
         print(f"Academy teachers: ")  # Будем передавать красиво, а не просто списком
         for teacher in self.teachers:
-            print(teacher.show_info())
+            teacher.show_info()
             # print(teacher)
 
         print(f"List of the students: ")
         for student in self.students:
-            print(student.show_info())
+            student.show_info()
             # print(student)
 
         print(f"Subjects:")

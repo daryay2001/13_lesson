@@ -359,86 +359,86 @@
 ##############
 ####
 # добавить инкапсуляцию - не работает в классах наследниках =(
-# class Transport:
-#     __name = "no name"
-#     __year = 2001
-#     def __init__(self, name, year):
-#         self.name = name
-#         self.year = year
-#     @property
-#     def name(self):
-#         return self.__name
-#     @name.setter
-#     def name(self, name):
-#         if len(name) > 2:
-#             self.__name = name
-#     @property
-#     def year(self):
-#         return self.__year
-#     @year.setter
-#     def year(self, year):
-#         if year > 1950:
-#             self.__year = year
-#
-#     def show_info(self):
-#         print(f"Name: {self.name}\nyear: {self.year}")
-#
-#
-# class BaseAuto(Transport):
-#     def __init__(self, name, year, wheels_count):
-#         super().__init__(name, year)
-#         self.__wheels_count = 0
-#         self.wheels_count = wheels_count
-#     @property
-#     def wheels_count(self, wheels_count):
-#         return self.__wheels_count
-#     @wheels_count.setter
-#     def wheels_count(self, wheels_count):
-#         if wheels_count > 0:
-#             self.__wheels_count = wheels_count
-#
-#     # перекрытие метода базового класса Transport
-#     def show_info(self):
-#         print(f"Wheels count: {self.wheels_count}")
-#
-#
-# class WaterTransport(Transport):
-#     def __init__(self, name, year, displacement=0.):
-#         super().__init__(name, year)
-#         self.displacement = displacement
-#
-#     # перекрытие метода базового класса Transport
-#     def show_info(self):
-#         print(f"Displacement: {self.displacement}")
-#
-#
-# class Auto(BaseAuto):
-#     def __init__(self, name, year, wheels_count, machine_body_form_factor):
-#         super().__init__(name, year, wheels_count)
-#         self.machine_body_form_factor = machine_body_form_factor
-#
-#     # перекрытие метода базового класса BaseAuto
-#     def show_info(self):
-#         print(f"Machine body form factor: {self.machine_body_form_factor}")
-#
-#
-# class Amphibian(WaterTransport, BaseAuto):
-#     def __init__(self, name, year, wheels_count, displacement):
-#         WaterTransport.__init__(self, name, year, displacement)
-#         BaseAuto.__init__(self, name, year, wheels_count)
-#
-#     # переопределение метода show_info
-#     def show_info(self):
-#         Transport.show_info(self)
-#         WaterTransport.show_info(self)
-#         BaseAuto.show_info(self)
-#
-#
-# # test_car = Amphibian("BMW", 2023, 4, 123.2)
-# # test_car.show_info()
-# # print(Amphibian.mro())
-# another_car = Amphibian("A", 1949, 5, 1234)
-# another_car.show_info()
+class Transport:
+    __name = "no name"
+    __year = 2001
+    def __init__(self, name, year):
+        self.name = name
+        self.year = year
+    @property
+    def name(self):
+        return self.__name
+    @name.setter
+    def name(self, name):
+        if len(name) > 2:
+            self.__name = name
+    @property
+    def year(self):
+        return self.__year
+    @year.setter
+    def year(self, year):
+        if year > 1950:
+            self.__year = year
+
+    def show_info(self):
+        print(f"Name: {self.name}\nyear: {self.year}")
+
+
+class BaseAuto(Transport):
+    def __init__(self, name, year, wheels_count=0):
+        super().__init__(name, year)
+        self.__wheels_count = 0
+        self.wheels_count = wheels_count
+    @property
+    def wheels_count(self):
+        return self.__wheels_count
+    @wheels_count.setter
+    def wheels_count(self, wheels_count):
+        if wheels_count > 0:
+            self.__wheels_count = wheels_count
+
+    # перекрытие метода базового класса Transport
+    def show_info(self):
+        print(f"Wheels count: {self.wheels_count}")
+
+
+class WaterTransport(Transport):
+    def __init__(self, name, year, displacement=0.):
+        super().__init__(name, year)
+        self.displacement = displacement
+
+    # перекрытие метода базового класса Transport
+    def show_info(self):
+        print(f"Displacement: {self.displacement}")
+
+
+class Auto(BaseAuto):
+    def __init__(self, name, year, wheels_count, machine_body_form_factor):
+        super().__init__(name, year, wheels_count)
+        self.machine_body_form_factor = machine_body_form_factor
+
+    # перекрытие метода базового класса BaseAuto
+    def show_info(self):
+        print(f"Machine body form factor: {self.machine_body_form_factor}")
+
+
+class Amphibian(WaterTransport, BaseAuto):
+    def __init__(self, name, year, wheels_count, displacement):
+        WaterTransport.__init__(self, name, year, displacement)
+        BaseAuto.__init__(self, name, year, wheels_count)
+
+    # переопределение метода show_info
+    def show_info(self):
+        Transport.show_info(self)
+        WaterTransport.show_info(self)
+        BaseAuto.show_info(self)
+
+
+# test_car = Amphibian("BMW", 2023, 4, 123.2)
+# test_car.show_info()
+# print(Amphibian.mro())
+another_car = Amphibian("A", 1949, 5, 1234)
+another_car.show_info()
 
 
 ################################
