@@ -215,7 +215,7 @@ academy.add_subjects(math_subject)
 academy.add_subjects(evil_subject)
 
 room1 = Room("12B", 3)
-room2 = Room("13", 3)
+room2 = Room("13", 13)
 
 dormitory = Dormitory("Evil Academy Dormitory")
 dormitory.add_room(room1)
@@ -225,3 +225,12 @@ auditor = Auditoriums("Dark Auditorium")
 auditor.human_capacity = 17
 
 academy.show_info()
+
+print("Dormitory info: ")
+print(f"Dormitory name: {dormitory.name}")
+for room in dormitory.rooms:
+    print(f"room number: {room.number}, Capacity: {room.capacity}")
+
+print("Auditorium info: ")
+print(f"Auditorium name: {auditor.name}")
+print(f"Human capacity: {auditor.human_capacity}")
